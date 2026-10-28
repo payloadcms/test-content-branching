@@ -1,4 +1,4 @@
-import type { Field } from 'payload'
+import type { NamedGroupField } from 'payload'
 
 import {
   FixedToolbarFeature,
@@ -9,7 +9,7 @@ import {
 
 import { linkGroup } from '@/fields/linkGroup'
 
-export const hero: Field = {
+export const hero: NamedGroupField = {
   name: 'hero',
   type: 'group',
   fields: [

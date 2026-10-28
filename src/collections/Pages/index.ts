@@ -60,13 +60,14 @@ export const Pages: CollectionConfig = {
     {
       name: 'title',
       type: 'text',
+      localized: true,
       required: true,
     },
     {
       type: 'tabs',
       tabs: [
         {
-          fields: [hero],
+          fields: [{ ...hero, localized: true }],
           label: 'Hero',
         },
         {
@@ -74,6 +75,7 @@ export const Pages: CollectionConfig = {
             {
               name: 'layout',
               type: 'blocks',
+              localized: true,
               blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock],
               required: true,
               admin: {
@@ -122,6 +124,7 @@ export const Pages: CollectionConfig = {
     {
       name: 'slug',
       type: 'slug',
+      localized: true,
       useAsSlug: 'title',
     },
   ],

@@ -18,11 +18,13 @@ export const Categories: CollectionConfig = {
     {
       name: 'title',
       type: 'text',
+      localized: true,
       required: true,
     },
     {
       name: 'slug',
       type: 'slug',
+      localized: true,
       useAsSlug: 'title',
       admin: { position: undefined },
     },

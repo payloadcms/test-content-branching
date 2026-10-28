@@ -71,6 +71,7 @@ export const Posts: CollectionConfig = {
     {
       name: 'title',
       type: 'text',
+      localized: true,
       required: true,
     },
     {
@@ -81,11 +82,13 @@ export const Posts: CollectionConfig = {
             {
               name: 'heroImage',
               type: 'upload',
+              localized: true,
               relationTo: 'media',
             },
             {
               name: 'content',
               type: 'richText',
+              localized: true,
               editor: lexicalEditor({
                 features: ({ rootFeatures }) => {
                   return [
@@ -109,6 +112,7 @@ export const Posts: CollectionConfig = {
             {
               name: 'relatedPosts',
               type: 'relationship',
+              localized: true,
               admin: {
                 position: 'sidebar',
               },
@@ -125,6 +129,7 @@ export const Posts: CollectionConfig = {
             {
               name: 'categories',
               type: 'relationship',
+              localized: true,
               admin: {
                 position: 'sidebar',
               },
@@ -219,6 +224,7 @@ export const Posts: CollectionConfig = {
     {
       name: 'slug',
       type: 'slug',
+      localized: true,
       useAsSlug: 'title',
     },
   ],

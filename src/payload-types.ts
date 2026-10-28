@@ -173,7 +173,7 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
-  fallbackLocale: null;
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('en' | 'fr' | 'de') | ('en' | 'fr' | 'de')[];
   globals: {
     header: Header;
     footer: Footer;
@@ -184,7 +184,7 @@ export interface Config {
     footer: FooterSelect<false> | FooterSelect<true>;
     'payload-jobs-stats': PayloadJobsStatsSelect<false> | PayloadJobsStatsSelect<true>;
   };
-  locale: null;
+  locale: 'en' | 'fr' | 'de';
   widgets: {
     welcome: WelcomeWidget;
     collections: CollectionsWidget;
