@@ -13,6 +13,7 @@ export const post1: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
   author,
 }) => {
   return {
+    _branch: 'main',
     slug: 'digital-horizons',
     _status: 'published',
     authors: [author],

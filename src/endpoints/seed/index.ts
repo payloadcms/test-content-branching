@@ -138,6 +138,7 @@ export const seed = async ({
       payload.create({
         collection: 'categories',
         data: {
+          _branch: 'main',
           title: category,
           slug: category,
         },

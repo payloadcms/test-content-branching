@@ -35,6 +35,7 @@ export async function seedRelatedPosts(): Promise<void> {
   const category = await payload.create({
     collection: 'categories',
     data: {
+      _branch: 'main',
       slug: relatedPostsFixture.categorySlug,
       title: relatedPostsFixture.categoryTitle,
     },
@@ -44,7 +45,7 @@ export async function seedRelatedPosts(): Promise<void> {
 
   const image = await payload.create({
     collection: 'media',
-    data: { alt: relatedPostsFixture.imageAlt },
+    data: { _branch: 'main', alt: relatedPostsFixture.imageAlt },
     filePath: path.resolve(dirname, '../../src/endpoints/seed/image-post1.webp'),
     overrideAccess: true,
     ...disableRevalidate,
@@ -54,6 +55,7 @@ export async function seedRelatedPosts(): Promise<void> {
     collection: 'posts',
     data: {
       _status: 'published',
+      _branch: 'main',
       categories: [category.id],
       content: buildContent('Related post content.'),
       meta: { image: image.id },
@@ -68,6 +70,7 @@ export async function seedRelatedPosts(): Promise<void> {
     collection: 'posts',
     data: {
       _status: 'published',
+      _branch: 'main',
       content: buildContent('Post content.'),
       relatedPosts: [relatedPost.id],
       slug: relatedPostsFixture.postSlug,

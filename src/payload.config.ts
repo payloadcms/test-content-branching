@@ -19,6 +19,7 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  branching: true,
   admin: {
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
@@ -93,6 +94,8 @@ export default buildConfig({
     transformers: [sharpTransformer({ collections: { media: mediaSharpOptions } })],
   },
   jobs: {
+    // Keep scheduled merges running during local QA while the dev server is open.
+    autoRun: process.env.NODE_ENV === 'development' ? [{ cron: '* * * * *', queue: 'default' }] : [],
     access: {
       run: ({ req }: { req: PayloadRequest }): boolean => {
         // Allow logged in users to execute this endpoint (default)

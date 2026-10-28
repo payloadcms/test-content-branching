@@ -11,6 +11,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
   metaImage,
 }) => {
   return {
+    _branch: 'main',
     slug: 'home',
     _status: 'published',
     hero: {

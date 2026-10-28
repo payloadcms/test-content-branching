@@ -140,6 +140,9 @@ export interface Config {
     search: Search;
     'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
+    'payload-branches': PayloadBranch;
+    'payload-branch-changes': PayloadBranchChange;
+    'payload-branch-merges': PayloadBranchMerge;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -159,6 +162,9 @@ export interface Config {
     search: SearchSelect<false> | SearchSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
+    'payload-branches': PayloadBranchesSelect<false> | PayloadBranchesSelect<true>;
+    'payload-branch-changes': PayloadBranchChangesSelect<false> | PayloadBranchChangesSelect<true>;
+    'payload-branch-merges': PayloadBranchMergesSelect<false> | PayloadBranchMergesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -190,6 +196,7 @@ export interface Config {
   jobs: {
     tasks: {
       schedulePublish: TaskSchedulePublish;
+      scheduleMerge: TaskScheduleMerge;
       inline: {
         input: unknown;
         output: unknown;
@@ -224,6 +231,8 @@ export interface Folder {
   id: string;
   _h_folders?: (string | null) | Folder;
   name: string;
+  _branch: string;
+  _branchDocID?: (string | null) | Folder;
   createdBy?: {
     relationTo: 'users';
     value: string | User;
@@ -281,7 +290,7 @@ export interface Page {
   title: string;
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
-    richText?: LexicalRichText<LexicalNodes_17BFECDB> | null;
+    richText?: LexicalRichText<LexicalNodes_17BFECDB> | null | null;
     links?:
       | {
           link: {
@@ -319,6 +328,8 @@ export interface Page {
   };
   publishedAt?: string | null;
   slug: string;
+  _branch: string;
+  _branchDocID?: (string | null) | Page;
   createdBy?: {
     relationTo: 'users';
     value: string | User;
@@ -359,6 +370,8 @@ export interface Post {
       }[]
     | null;
   slug: string;
+  _branch: string;
+  _branchDocID?: (string | null) | Post;
   createdBy?: {
     relationTo: 'users';
     value: string | User;
@@ -379,7 +392,9 @@ export interface Media {
   id: string;
   alt?: string | null;
   _h_folders?: (string | null) | Folder;
-  caption?: LexicalRichText<LexicalNodes_AD327369> | null;
+  caption?: LexicalRichText<LexicalNodes_AD327369> | null | null;
+  _branch: string;
+  _branchDocID?: (string | null) | Media;
   createdBy?: {
     relationTo: 'users';
     value: string | User;
@@ -499,6 +514,8 @@ export interface Category {
         id?: string | null;
       }[]
     | null;
+  _branch: string;
+  _branchDocID?: (string | null) | Category;
   createdBy?: {
     relationTo: 'users';
     value: string | User;
@@ -515,7 +532,7 @@ export interface Category {
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
-  richText?: LexicalRichText<LexicalNodes_17BFECDB> | null;
+  richText?: LexicalRichText<LexicalNodes_17BFECDB> | null | null;
   links?:
     | {
         link: {
@@ -552,7 +569,7 @@ export interface ContentBlock {
   columns?:
     | {
         size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
-        richText?: LexicalRichText<LexicalNodes_556A39AF> | null;
+        richText?: LexicalRichText<LexicalNodes_556A39AF> | null | null;
         enableLink?: boolean | null;
         link?: {
           type?: ('reference' | 'custom') | null;
@@ -595,7 +612,7 @@ export interface MediaBlock {
  * via the `definition` "ArchiveBlock".
  */
 export interface ArchiveBlock {
-  introContent?: LexicalRichText<LexicalNodes_17BFECDB> | null;
+  introContent?: LexicalRichText<LexicalNodes_17BFECDB> | null | null;
   populateBy?: ('collection' | 'selection') | null;
   relationTo?: 'posts' | null;
   categories?: (string | Category)[] | null;
@@ -617,7 +634,7 @@ export interface ArchiveBlock {
 export interface FormBlock {
   form: string | Form;
   enableIntro?: boolean | null;
-  introContent?: LexicalRichText<LexicalNodes_17BFECDB> | null;
+  introContent?: LexicalRichText<LexicalNodes_17BFECDB> | null | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'formBlock';
@@ -632,7 +649,7 @@ export interface Form {
   fields?: (Checkbox | Country | Email | Message | Number | Select | State | Text | Textarea)[] | null;
   submitButtonLabel?: string | null;
   confirmationType?: ('message' | 'redirect') | null;
-  confirmationMessage?: LexicalRichText<LexicalNodes_17BFECDB>;
+  confirmationMessage?: LexicalRichText<LexicalNodes_17BFECDB> | null;
   redirect?: {
     url: string;
   };
@@ -644,10 +661,12 @@ export interface Form {
         replyTo?: string | null;
         emailFrom?: string | null;
         subject: string;
-        message?: LexicalRichText<LexicalNodes_AD327369> | null;
+        message?: LexicalRichText<LexicalNodes_AD327369> | null | null;
         id?: string | null;
       }[]
     | null;
+  _branch: string;
+  _branchDocID?: (string | null) | Form;
   createdBy?: {
     relationTo: 'users';
     value: string | User;
@@ -704,7 +723,7 @@ export interface Email {
  * via the `definition` "Message".
  */
 export interface Message {
-  message?: LexicalRichText<LexicalNodes_AD327369> | null;
+  message?: LexicalRichText<LexicalNodes_AD327369> | null | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'message';
@@ -809,6 +828,8 @@ export interface Redirect {
         } | null);
     url?: string | null;
   };
+  _branch: string;
+  _branchDocID?: (string | null) | Redirect;
   createdBy?: {
     relationTo: 'users';
     value: string | User;
@@ -834,6 +855,8 @@ export interface FormSubmission {
         id?: string | null;
       }[]
     | null;
+  _branch: string;
+  _branchDocID?: (string | null) | FormSubmission;
   createdBy?: {
     relationTo: 'users';
     value: string | User;
@@ -873,6 +896,8 @@ export interface Search {
         id?: string | null;
       }[]
     | null;
+  _branch: string;
+  _branchDocID?: (string | null) | Search;
   updatedAt: string;
   createdAt: string;
 }
@@ -954,7 +979,7 @@ export interface PayloadJob {
     | {
         executedAt: string;
         completedAt: string;
-        taskSlug: 'inline' | 'schedulePublish';
+        taskSlug: 'inline' | 'schedulePublish' | 'scheduleMerge';
         taskID: string;
         input:
           | {
@@ -985,13 +1010,13 @@ export interface PayloadJob {
           | boolean
           | null;
         parent?: {
-          taskSlug?: ('inline' | 'schedulePublish') | null;
+          taskSlug?: ('inline' | 'schedulePublish' | 'scheduleMerge') | null;
           taskID?: string | null;
         };
         id?: string | null;
       }[]
     | null;
-  taskSlug?: ('inline' | 'schedulePublish') | null;
+  taskSlug?: ('inline' | 'schedulePublish' | 'scheduleMerge') | null;
   queue?: string | null;
   waitUntil?: string | null;
   processingUntil?: string | null;
@@ -1000,6 +1025,171 @@ export interface PayloadJob {
    * Used for concurrency control. Jobs with the same key are subject to exclusive/supersedes rules.
    */
   concurrencyKey?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-branches".
+ */
+export interface PayloadBranch {
+  id: string;
+  name: string;
+  description?: string | null;
+  slug: string;
+  status?: ('open' | 'merging' | 'merged' | 'closed') | null;
+  mergedAt?: string | null;
+  mergeProgress?: string | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: string | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: string | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-branch-changes".
+ */
+export interface PayloadBranchChange {
+  id: string;
+  branch: string;
+  entityType?: ('collection' | 'global') | null;
+  collectionSlug?: string | null;
+  documentID?: string | null;
+  globalSlug?: string | null;
+  doc?:
+    | ({
+        relationTo: 'folders';
+        value: string | Folder;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: string | Page;
+      } | null)
+    | ({
+        relationTo: 'posts';
+        value: string | Post;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'categories';
+        value: string | Category;
+      } | null)
+    | ({
+        relationTo: 'redirects';
+        value: string | Redirect;
+      } | null)
+    | ({
+        relationTo: 'forms';
+        value: string | Form;
+      } | null)
+    | ({
+        relationTo: 'form-submissions';
+        value: string | FormSubmission;
+      } | null)
+    | ({
+        relationTo: 'search';
+        value: string | Search;
+      } | null);
+  operation: 'create' | 'update' | 'delete';
+  baseUpdatedAt?: string | null;
+  baseVersionID?: string | null;
+  baseVersionUpdatedAt?: string | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: string | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: string | User;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-branch-merges".
+ */
+export interface PayloadBranchMerge {
+  id: string;
+  branch: string;
+  mergedAt?: string | null;
+  startedAt?: string | null;
+  completedAt?: string | null;
+  targetBranch?: string | null;
+  status?: ('inProgress' | 'awaitingCommit' | 'succeeded' | 'failed' | 'cleanupFailed') | null;
+  error?: string | null;
+  mergedByCollection?: string | null;
+  mergedByID?: string | null;
+  mergedByLabel?: string | null;
+  changes?:
+    | {
+        changeID?: string | null;
+        collectionSlug?: string | null;
+        docID?: string | null;
+        docTitle?: string | null;
+        globalSlug?: string | null;
+        operation?: ('create' | 'update' | 'delete') | null;
+        applicationOutcome?:
+          ('unattempted' | 'attempted' | 'applied' | 'committed' | 'failed' | 'rolledBack' | 'unknown') | null;
+        recoveryOutcome?:
+          ('notNeeded' | 'pending' | 'restored' | 'deleted' | 'unavailable' | 'failed' | 'unknown') | null;
+        cleanupOutcome?: ('pending' | 'completed' | 'failed' | 'notNeeded' | 'superseded' | 'unknown') | null;
+        targetID?: string | null;
+        sourceID?: string | null;
+        sourceRevision?: string | null;
+        sourceUpdatedAt?: string | null;
+        sourceVersionIDs?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        beforeVersionID?: string | null;
+        afterVersionID?: string | null;
+        error?: string | null;
+        recoveryError?: string | null;
+        cleanupError?: string | null;
+        before?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        after?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  createdBy?: {
+    relationTo: 'users';
+    value: string | User;
+  } | null;
+  updatedBy?: {
+    relationTo: 'users';
+    value: string | User;
+  } | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1101,8 +1291,8 @@ export interface PayloadLlmInstruction {
   entitySlug: string;
   title?: string | null;
   entityType: 'collection' | 'global';
-  additionalInstructions?: LexicalRichText<LexicalNodes_3DE324E4> | null;
-  systemInstructions?: LexicalRichText<LexicalNodes_3DE324E4> | null;
+  additionalInstructions?: LexicalRichText<LexicalNodes_3DE324E4> | null | null;
+  systemInstructions?: LexicalRichText<LexicalNodes_3DE324E4> | null | null;
   createdBy?: {
     relationTo: 'users';
     value: string | User;
@@ -1121,6 +1311,8 @@ export interface PayloadLlmInstruction {
 export interface FoldersSelect<T extends boolean = true> {
   _h_folders?: T;
   name?: T;
+  _branch?: T;
+  _branchDocID?: T;
   createdBy?: T;
   updatedBy?: T;
   updatedAt?: T;
@@ -1174,6 +1366,8 @@ export interface PagesSelect<T extends boolean = true> {
       };
   publishedAt?: T;
   slug?: T;
+  _branch?: T;
+  _branchDocID?: T;
   createdBy?: T;
   updatedBy?: T;
   updatedAt?: T;
@@ -1290,6 +1484,8 @@ export interface PostsSelect<T extends boolean = true> {
         name?: T;
       };
   slug?: T;
+  _branch?: T;
+  _branchDocID?: T;
   createdBy?: T;
   updatedBy?: T;
   updatedAt?: T;
@@ -1304,6 +1500,8 @@ export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   _h_folders?: T;
   caption?: T;
+  _branch?: T;
+  _branchDocID?: T;
   createdBy?: T;
   updatedBy?: T;
   updatedAt?: T;
@@ -1434,6 +1632,8 @@ export interface CategoriesSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
+  _branch?: T;
+  _branchDocID?: T;
   createdBy?: T;
   updatedBy?: T;
   updatedAt?: T;
@@ -1478,6 +1678,8 @@ export interface RedirectsSelect<T extends boolean = true> {
         reference?: T;
         url?: T;
       };
+  _branch?: T;
+  _branchDocID?: T;
   createdBy?: T;
   updatedBy?: T;
   updatedAt?: T;
@@ -1613,6 +1815,8 @@ export interface FormsSelect<T extends boolean = true> {
         message?: T;
         id?: T;
       };
+  _branch?: T;
+  _branchDocID?: T;
   createdBy?: T;
   updatedBy?: T;
   updatedAt?: T;
@@ -1631,6 +1835,8 @@ export interface FormSubmissionsSelect<T extends boolean = true> {
         value?: T;
         id?: T;
       };
+  _branch?: T;
+  _branchDocID?: T;
   createdBy?: T;
   updatedBy?: T;
   updatedAt?: T;
@@ -1660,6 +1866,8 @@ export interface SearchSelect<T extends boolean = true> {
         title?: T;
         id?: T;
       };
+  _branch?: T;
+  _branchDocID?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1708,6 +1916,88 @@ export interface PayloadJobsSelect<T extends boolean = true> {
   processingUntil?: T;
   processingToken?: T;
   concurrencyKey?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-branches_select".
+ */
+export interface PayloadBranchesSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  slug?: T;
+  status?: T;
+  mergedAt?: T;
+  mergeProgress?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-branch-changes_select".
+ */
+export interface PayloadBranchChangesSelect<T extends boolean = true> {
+  branch?: T;
+  entityType?: T;
+  collectionSlug?: T;
+  documentID?: T;
+  globalSlug?: T;
+  doc?: T;
+  operation?: T;
+  baseUpdatedAt?: T;
+  baseVersionID?: T;
+  baseVersionUpdatedAt?: T;
+  createdBy?: T;
+  updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-branch-merges_select".
+ */
+export interface PayloadBranchMergesSelect<T extends boolean = true> {
+  branch?: T;
+  mergedAt?: T;
+  startedAt?: T;
+  completedAt?: T;
+  targetBranch?: T;
+  status?: T;
+  error?: T;
+  mergedByCollection?: T;
+  mergedByID?: T;
+  mergedByLabel?: T;
+  changes?:
+    | T
+    | {
+        changeID?: T;
+        collectionSlug?: T;
+        docID?: T;
+        docTitle?: T;
+        globalSlug?: T;
+        operation?: T;
+        applicationOutcome?: T;
+        recoveryOutcome?: T;
+        cleanupOutcome?: T;
+        targetID?: T;
+        sourceID?: T;
+        sourceRevision?: T;
+        sourceUpdatedAt?: T;
+        sourceVersionIDs?: T;
+        beforeVersionID?: T;
+        afterVersionID?: T;
+        error?: T;
+        recoveryError?: T;
+        cleanupError?: T;
+        before?: T;
+        after?: T;
+        id?: T;
+      };
+  createdBy?: T;
+  updatedBy?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1785,6 +2075,7 @@ export interface Header {
         id?: string | null;
       }[]
     | null;
+  _branch: string;
   createdBy?: {
     relationTo: 'users';
     value: string | User;
@@ -1822,6 +2113,7 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
+  _branch: string;
   createdBy?: {
     relationTo: 'users';
     value: string | User;
@@ -1870,6 +2162,7 @@ export interface HeaderSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  _branch?: T;
   createdBy?: T;
   updatedBy?: T;
   updatedAt?: T;
@@ -1895,6 +2188,7 @@ export interface FooterSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  _branch?: T;
   createdBy?: T;
   updatedBy?: T;
   updatedAt?: T;
@@ -2015,6 +2309,22 @@ export interface TaskSchedulePublish {
           value: string | Post;
         } | null);
     global?: string | null;
+    user?: {
+      relationTo: 'users';
+      value: string | User;
+    } | null;
+  };
+  output?: unknown;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskScheduleMerge".
+ */
+export interface TaskScheduleMerge {
+  input: {
+    branch: string;
+    changes?: string[] | null;
+    closeBranch?: boolean | null;
     user?: {
       relationTo: 'users';
       value: string | User;

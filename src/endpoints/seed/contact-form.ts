@@ -1,6 +1,7 @@
 import { RequiredDataFromCollectionSlug } from 'payload'
 
 export const contactForm: RequiredDataFromCollectionSlug<'forms'> = {
+  _branch: 'main',
   confirmationMessage: {
     root: {
       type: 'root',
