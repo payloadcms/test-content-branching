@@ -10,14 +10,14 @@ import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 
-import { Page, Post } from '@/payload-types'
-import { getServerSideURL } from '@/utilities/getURL'
+import {Page, Post} from '@/payload-types'
+import {getServerSideURL} from '@/utilities/getURL'
 
-const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
+const generateTitle: GenerateTitle<Post | Page> = ({doc}) => {
   return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
 }
 
-const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
+const generateURL: GenerateURL<Post | Page> = ({doc}) => {
   const url = getServerSideURL()
 
   return doc?.slug ? `${url}/${doc.slug}` : url
@@ -59,17 +59,17 @@ export const plugins: Plugin[] = [
       payment: false,
     },
     formOverrides: {
-      fields: ({ defaultFields }) => {
+      fields: ({defaultFields}) => {
         return defaultFields.map((field) => {
           if ('name' in field && field.name === 'confirmationMessage') {
             return {
               ...field,
               editor: lexicalEditor({
-                features: ({ rootFeatures }) => {
+                features: ({rootFeatures}) => {
                   return [
                     ...rootFeatures,
                     FixedToolbarFeature(),
-                    HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+                    HeadingFeature({enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4']}),
                   ]
                 },
               }),
