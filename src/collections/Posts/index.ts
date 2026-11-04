@@ -224,7 +224,6 @@ export const Posts: CollectionConfig = {
     {
       name: 'slug',
       type: 'slug',
-      localized: true,
       useAsSlug: 'title',
     },
   ],

@@ -124,7 +124,6 @@ export const Pages: CollectionConfig = {
     {
       name: 'slug',
       type: 'slug',
-      localized: true,
       useAsSlug: 'title',
     },
   ],

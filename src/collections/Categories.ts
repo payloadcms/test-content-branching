@@ -24,7 +24,6 @@ export const Categories: CollectionConfig = {
     {
       name: 'slug',
       type: 'slug',
-      localized: true,
       useAsSlug: 'title',
       admin: { position: undefined },
     },
