@@ -7,6 +7,10 @@ node_modules
 next-env.d.ts
 .vercel
 
+# Local SQLite database and journal files
+*.db
+*.db-*
+
 # Payload default media upload directory
 public/media/
 
