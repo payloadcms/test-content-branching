@@ -1036,7 +1036,6 @@ export interface PayloadBranch {
   id: string;
   name: string;
   description?: string | null;
-  slug: string;
   status?: ('open' | 'merging' | 'merged' | 'closed') | null;
   mergedAt?: string | null;
   mergeProgress?: string | null;
@@ -1926,7 +1925,6 @@ export interface PayloadJobsSelect<T extends boolean = true> {
 export interface PayloadBranchesSelect<T extends boolean = true> {
   name?: T;
   description?: T;
-  slug?: T;
   status?: T;
   mergedAt?: T;
   mergeProgress?: T;
