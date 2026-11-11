@@ -71,7 +71,6 @@ export default buildConfig({
     client: {
       url: process.env.DATABASE_URL || 'file:./payload.db',
     },
-    transactionOptions: {},
   }),
   collections: [
     {
